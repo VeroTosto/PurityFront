@@ -11,7 +11,6 @@ export default class Recomendaciones extends React.Component {
             valor: navigation.state.params.valor,
             texto: null,
             color: null,
-
         }
     }
     
