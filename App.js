@@ -5,6 +5,15 @@ import { Col, Row} from 'react-native-easy-grid';
 import LogoImage from './img/LogoImage';
 import Cartas from './pantallas/Cartas';
 import MyNav from './navigation';
+
+import * as firebase from 'firebase';  
+import "firebase/firestore";
+import {decode, encode} from 'base-64'
+
+if (!global.btoa) {  global.btoa = encode }
+
+if (!global.atob) { global.atob = decode }
+  
 export default class App extends React.Component {
 
   render() {
