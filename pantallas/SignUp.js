@@ -2,26 +2,7 @@ import React from 'react';
 import { Card, CardItem, Text, Row, Col, Input, Form, Item, Label} from 'native-base';
 import { StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import LogoImage2 from '../img/LogoImage2';
-
 import * as firebase from 'firebase';  
-import "firebase/firestore";
-import {decode, encode} from 'base-64'
-if (!global.btoa) {  global.btoa = encode }
-if (!global.atob) { global.atob = decode }
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyA8RZyosskoo3Invm7Iy9QaVo4CLLFR-is",
-    authDomain: "pruebareactnative-c445e.firebaseapp.com",
-    databaseURL: "https://pruebareactnative-c445e.firebaseio.com",
-    projectId: "pruebareactnative-c445e",
-    storageBucket: "pruebareactnative-c445e.appspot.com",
-    messagingSenderId: "660945583741",
-    appId: "1:660945583741:web:20448b91f461646ad87b14"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
 
 
 export default class SignUp extends React.Component {
@@ -48,7 +29,7 @@ export default class SignUp extends React.Component {
           var uid; 
           uid =  user.uid;
           console.log("el uid de usuario es " + uid)
-          db.collection('usuarios').doc(uid).set({
+          firebase.firestore().collection('usuarios').doc(uid).set({
             nombre: nombrecompleto,
             email: email,
             direccion: direccion,
@@ -117,6 +98,11 @@ export default class SignUp extends React.Component {
                             style = {styles.btnSignUp} 
                             onPress={ () => { this.SingUpUser(this.state.email, this.state.password, this.state.nombrecompleto, this.state.direccion); this.CambiarPantalla();}}>
                                 <Text style={{color: 'white', fontWeight: 'bold'}}>Crear Cuenta</Text>
+                            </TouchableOpacity>
+                        </Item>
+                        <Item style= {{marginTop: 10}}>
+                            <TouchableOpacity style= {{backgroundColor: '#FFFFFF',}} onPress={() => this.props.navigation.navigate('LogIn')}>  
+                                <Text style={{textDecorationLine: 'underline', fontSize: 15, color: 'black'}}>Iniciar Sesion</Text>
                             </TouchableOpacity>
                         </Item>
                     </Form>
