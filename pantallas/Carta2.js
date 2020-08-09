@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Card, CardItem, Text, Row, Col} from 'native-base';
-import MyListItem from './../components/MyListItem'
+import MyListItem from './../components/MyListItem';
+import Geocoder from 'react-native-geocoding';
 
 export default class ContAtm extends React.Component {
     constructor(props) {
@@ -10,7 +11,9 @@ export default class ContAtm extends React.Component {
             texto: null,
             descripcion: null,
             color: null,
+            direccion: null,
         }; 
+        Geocoder.init("AIzaSyB54rA_Liu1QOxxAZAX2fFhViLqFc81ROg");
     }
 
     setValores = () => {
@@ -35,6 +38,22 @@ export default class ContAtm extends React.Component {
     }
     componentDidMount = () => {
         this.setValores();
+
+        navigator.geolocation.getCurrentPosition(
+            position => {
+                Geocoder.from(position.coords.latitude, position.coords.longitude)
+                .then(json => {
+                    var addressComponent = json.results[0].address_components;
+                    var num = addressComponent[0].long_name
+                    var street = addressComponent[1].long_name
+                    console.log(addressComponent);
+                    this.setState({direccion: street + " " + num})
+                })
+                .catch(error => console.warn(error));
+            },
+            error => this.setState({error: error.message}),
+            {enableHighAccuracy: true, timeout: 20000, maximumAge: 2000}
+        );
     }
 
     render() {
@@ -58,7 +77,7 @@ export default class ContAtm extends React.Component {
             </Row>
             <Row style = {{alignSelf: 'center'}}>
                 <Card style = {{width: '85%', borderRadius: 20, marginTop: 10, padding: 20}}>
-                    <Text style = {{alignSelf: 'center', fontSize: 20, fontWeight: 'bold'}}>Av. Congreso 245</Text>
+                <Text style = {{alignSelf: 'center', fontSize: 20, fontWeight: 'bold'}}>{this.state.direccion}</Text>
                 </Card>
             </Row>
             <Row style = {{alignSelf: 'center'}}>
