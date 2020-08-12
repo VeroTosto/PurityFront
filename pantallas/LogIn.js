@@ -15,35 +15,44 @@ export default class LogIn extends React.Component {
         }
 
     SingIn = (email, password) =>{
-        try{
-          firebase.auth().signInWithEmailAndPassword(email, password).then(function (user){
-            
-              firebase.auth().onAuthStateChanged(function(user){
-                if (user){
-                  
-                  if (!user.emailVerified)
-                  {
-                    Alert.alert('Verifique su cuenta, si no lo hace no podra iniciar sesion')
-                    console.log("Verifique su  cuenta")
-                    firebase.auth().signOut();
-                  }
-                  else
-                  {
-                    console.log(user)
-                    console.log("ha iniciado sesion")
-                    Alert.alert ("Se ha iniciado sesion");
-                    firebase.firestore().collection("usuarios").doc(user.uid).update({
-                      verificacion: true
-                    })
-                  }
+    
+        firebase.auth().signInWithEmailAndPassword(email, password).then(function (user){
+        
+            firebase.auth().onAuthStateChanged(function(user){
+            if (user){
+                
+                if (!user.emailVerified)
+                {
+                Alert.alert('Verifique su cuenta, si no lo hace no podra iniciar sesion')
+                console.log("Verifique su  cuenta")
+                firebase.auth().signOut();
                 }
-              })
-          })
+                else
+                {
+                console.log(user)
+                console.log("ha iniciado sesion")
+                Alert.alert ("Se ha iniciado sesion"); 
+                db.collection("usuarios").doc(user.uid).update({
+                    verificacion: true
+                })
+                }
+            }
+            })
+        })
+        .catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        if (errorCode === 'auth/wrong-password') {
+            alert('Contraseña incorrecta');
+        } else {
+            alert(errorMessage);
         }
-        catch (error){
-          Alert.alert (error.toString());
-        }
-      }
+        console.log(error);
+        });
+
+
+}
 
       CambiarPantalla = () =>{
         this.props.navigation.navigate('Home');

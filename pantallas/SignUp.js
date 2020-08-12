@@ -21,15 +21,15 @@ export default class SignUp extends React.Component {
           Alert.alert ('Complete todos los campos')
         }
         else {
-       try{
-        firebase.auth().createUserWithEmailAndPassword(email, password).then(function (user){
+       
+        firebase.auth().createUserWithEmailAndPassword(email,  password).then(function (user){
           console.log(user)
           console.log("se ha creado la cuenta")
           var user = firebase.auth().currentUser; 
           var uid; 
           uid =  user.uid;
           console.log("el uid de usuario es " + uid)
-          firebase.firestore().collection('usuarios').doc(uid).set({
+          db.collection('usuarios').doc(uid).set({
             nombre: nombrecompleto,
             email: email,
             direccion: direccion,
@@ -40,22 +40,19 @@ export default class SignUp extends React.Component {
         
           Alert.alert ("Se ha creado la cuenta, pero recuerde entrar a su mail y verificar su cuenta. En caso de no hacerlo no podra iniciar sesion.") 
         })
-        
-      }
-        catch(error) {
-          // Handle Errors here.
+        .catch(function(error) {
           var errorCode = error.code;
           var errorMessage = error.message;
           if (errorCode == 'auth/weak-password') {
-           Alert.alert('Contrasenia muy debil');
+           Alert.alert('Contraseña muy debil');
           } else {
             alert(errorMessage);
           }
           console.log(error);
-        }
+        });
+      
       }
     }
-
     CambiarPantalla = () =>{
         this.props.navigation.navigate('LogIn')
     }
