@@ -25,11 +25,12 @@ export default class SignUp extends React.Component {
         firebase.auth().createUserWithEmailAndPassword(email,  password).then(function (user){
           console.log(user)
           console.log("se ha creado la cuenta")
+          this.props.navigation.navigate('LogIn')
           var user = firebase.auth().currentUser; 
           var uid; 
           uid =  user.uid;
           console.log("el uid de usuario es " + uid)
-          db.collection('usuarios').doc(uid).set({
+          firebase.firestore().collection('usuarios').doc(uid).set({
             nombre: nombrecompleto,
             email: email,
             direccion: direccion,
@@ -39,7 +40,7 @@ export default class SignUp extends React.Component {
           user.reload()
         
           Alert.alert ("Se ha creado la cuenta, pero recuerde entrar a su mail y verificar su cuenta. En caso de no hacerlo no podra iniciar sesion.") 
-        })
+        }.bind(this))
         .catch(function(error) {
           var errorCode = error.code;
           var errorMessage = error.message;
@@ -52,9 +53,6 @@ export default class SignUp extends React.Component {
         });
       
       }
-    }
-    CambiarPantalla = () =>{
-        this.props.navigation.navigate('LogIn')
     }
 
     render() {
@@ -93,7 +91,7 @@ export default class SignUp extends React.Component {
                         <Item style= {{marginTop: 10}}>
                             <TouchableOpacity 
                             style = {styles.btnSignUp} 
-                            onPress={ () => { this.SingUpUser(this.state.email, this.state.password, this.state.nombrecompleto, this.state.direccion); this.CambiarPantalla();}}>
+                            onPress={ () => { this.SingUpUser(this.state.email, this.state.password, this.state.nombrecompleto, this.state.direccion);}}>
                                 <Text style={{color: 'white', fontWeight: 'bold'}}>Crear Cuenta</Text>
                             </TouchableOpacity>
                         </Item>

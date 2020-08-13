@@ -13,11 +13,10 @@ export default class LogIn extends React.Component {
               password:'',
             })
         }
-
+    
     SingIn = (email, password) =>{
     
         firebase.auth().signInWithEmailAndPassword(email, password).then(function (user){
-        
             firebase.auth().onAuthStateChanged(function(user){
             if (user){
                 
@@ -31,14 +30,17 @@ export default class LogIn extends React.Component {
                 {
                 console.log(user)
                 console.log("ha iniciado sesion")
+                console.log("mostrar navigation:", this.props)
+                this.props.navigation.navigate('Home');
                 Alert.alert ("Se ha iniciado sesion"); 
-                db.collection("usuarios").doc(user.uid).update({
+                
+                firebase.firestore().collection("usuarios").doc(user.uid).update({
                     verificacion: true
                 })
                 }
             }
-            })
-        })
+            }.bind(this))
+        }.bind(this))
         .catch(function(error) {
         // Handle Errors here.
         var errorCode = error.code;
@@ -53,10 +55,6 @@ export default class LogIn extends React.Component {
 
 
 }
-
-      CambiarPantalla = () =>{
-        this.props.navigation.navigate('Home');
-    }
       
     render() {
         return (
@@ -81,7 +79,7 @@ export default class LogIn extends React.Component {
                     <Item style= {{marginTop: 10}}>
                         <TouchableOpacity 
                             style = {styles.btnLogIn} 
-                            onPress={() => {this.SingIn(this.state.email, this.state.password); this.CambiarPantalla();}}>
+                            onPress={() => {this.SingIn(this.state.email, this.state.password); }}>
                                 <Text style={{color: 'white', fontWeight: 'bold'}}>Iniciar sesion</Text>
                         </TouchableOpacity>
                     </Item>
