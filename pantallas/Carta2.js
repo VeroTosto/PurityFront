@@ -1,9 +1,13 @@
-import React, { Component } from 'react';
 import { Card, CardItem, Text, Row, Col} from 'native-base';
 import MyListItem from './../components/MyListItem';
 import Geocoder from 'react-native-geocoding';
+import React, {useState, useCallback, useRef} from 'react';
+import {Button, View, StyleSheet} from 'react-native';
+import {ReanimatedArc, ReanimatedArcBase} from '@callstack/reanimated-arc';
+import Reanimated, {Easing} from 'react-native-reanimated';
 
 export default class ContAtm extends React.Component {
+    
     constructor(props) {
         super(props);
         this.state = {
@@ -64,14 +68,41 @@ export default class ContAtm extends React.Component {
                     <CardItem header style = {{alignSelf: 'center'}}>
                         <Text>Contaminacion del Aire</Text>
                     </CardItem>
-                    <CardItem style={{alignSelf: 'center'}}>
-                        <Text style={{fontSize: 50, marginTop: 50}}>{this.state.valor}</Text>
+                    <CardItem style={styles.container}>
+                        {/* <Reanimated.Code
+                            exec={Reanimated.call([arcAngle.current], ([value]) => {
+                            setText(`${Math.round((value / 240) * 100)}%`);
+                        })}
+                        /> */}
+                        <View style={styles.behind}>
+                        <ReanimatedArcBase 
+                            style={{alignSelf: 'center', transform: [{rotate: '240deg'}]}}
+                            color="lightgrey"
+                            diameter={200}
+                            width={20}
+                            arcSweepAngle={240}
+                            lineCap="round"
+                            rotation={0}
+                        />
+                        </View>
+                        <View style={styles.center}>
+                        <ReanimatedArc 
+                            style={{alignSelf: 'center', transform: [{rotate: '240deg'}]}}
+                            color="purple"
+                            diameter={200}
+                            width={20}
+                            arcSweepAngle={210}
+                            lineCap="round"
+                            rotation={0}
+                        />
+                        </View>
+                        <Text style={{fontSize: 40}}>{this.state.valor}</Text>
                     </CardItem>
                     <CardItem style={{alignSelf: 'center'}}>
-                        <Text style={{fontSize: 10, marginTop: 20, color: '#585858'}}>Calidad del Aire: {this.state.texto}</Text>
+                        <Text style={{fontSize: 10, color: '#585858'}}>Calidad del Aire: {this.state.texto}</Text>
                     </CardItem>
                     <CardItem style={{alignSelf: 'center'}}>
-                        <Text style={{fontSize: 20, marginTop: 20, color: '#585858'}}>Hace 3 horas</Text>
+                        <Text style={{fontSize: 20, color: '#585858'}}>Hace 3 horas</Text>
                     </CardItem>
                 </Card>
             </Row>
@@ -103,3 +134,28 @@ export default class ContAtm extends React.Component {
         )
     }   
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        height: '100%',
+        justifyContent: 'center',
+        marginTop: 25,
+    },
+    center: {
+      width: '100%',
+      height: '100%',
+      alignItems: 'center',
+      justifyContent: 'center',
+      position: 'absolute'
+    },
+    behind: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      position: 'absolute',
+      width: '100%',
+      height: '100%'
+    }
+  })
+
