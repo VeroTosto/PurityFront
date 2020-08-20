@@ -2,6 +2,10 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 import {Text, Container, Content, Body, ListItem, CheckBox, Card, Header} from 'native-base';
 import LogoImage from './../img/LogoImage';
+import Green from '../img/Green';
+import Salud from '../img/Salud';
+import Ciudad from '../img/Ciudad';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 export default class Recomendaciones extends React.Component {
 
     constructor(props) {
@@ -44,35 +48,27 @@ export default class Recomendaciones extends React.Component {
         <>
         <Header style ={{backgroundColor: '#00B18F', height: 60}} >
             <Body>
-            <LogoImage />
+                <LogoImage />
             </Body>
         </Header>
         <Content>
-            <Text style={{fontSize: 20, marginLeft: 15, marginTop: 10}}>Buenos días Pepito Sanchez!</Text>
-            <Text style={{fontSize: 15, marginLeft: 15, marginTop: 10}}>La calidad de aire en tu lugar de residencia es <Text style={{color: this.state.color}}>{this.state.texto}</Text>, puedes seguir las siguientes recomendaciones:</Text>
-            <Card style={{width: '90%', alignSelf: 'center', marginTop: 15}}>
-                <ListItem>
-                    <Text style={{alignSelf: 'flex-start'}}>Planta alguna de las plantas que se indican en nuestra ventana de información</Text>
-                    <Body >
-                        <CheckBox style={styles.checkbox} checked={true} color='#45CF2F'/>
-                    </Body>
-                </ListItem>
+            <Card style={{width: '90%', alignSelf: 'center', marginTop: 35, borderRadius: 5}}>
+                <TouchableOpacity>
+                    <Text style={{letterSpacing: 2, alignSelf: 'center', marginTop: 10}}>RECOMENDACIONES DE SALUD</Text>
+                    <Salud />
+                </TouchableOpacity>
             </Card>
-            <Card style={{width: '90%', alignSelf: 'center'}}>
-                <ListItem>
-                    <Text style={{alignSelf: 'flex-start'}}>Usa tu auto menos días por semana</Text>
-                    <Body>
-                        <CheckBox style={styles.checkbox} checked={false} color='#45CF2F' />
-                    </Body>
-                </ListItem>
+            <Card style={{width: '90%', alignSelf: 'center', marginTop: 15, borderRadius: 5}}>
+                <TouchableOpacity>
+                    <Text style={{letterSpacing: 2, alignSelf: 'center', marginTop: 10}}>RECOMENDACIONES GENERALES</Text>
+                    <Green />
+                </TouchableOpacity>
             </Card>
-            <Card style={{width: '90%', alignSelf: 'center'}}>
-                <ListItem>
-                    <Text style={{alignSelf: 'flex-start'}}>Si estás pensando en pintar tu casa, la pintura biometica ayuda a la disminución de particulas contaminantes en la atmósfera</Text>
-                    <Body>
-                        <CheckBox style={styles.checkbox} checked={false} color='#45CF2F'/>
-                    </Body>
-                </ListItem>
+            <Card style={{width: '90%', alignSelf: 'center', marginTop: 15, borderRadius: 5}}>
+                <TouchableOpacity>
+                    <Text style={{letterSpacing: 2, alignSelf: 'center', marginTop: 10, marginBottom: 10}}>RECOMENDACIONES DEL HOGAR</Text>
+                    <Ciudad />
+                </TouchableOpacity>
             </Card>
         </Content>
         </>
