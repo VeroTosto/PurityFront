@@ -27,7 +27,7 @@ export default class Cartas extends React.Component {
                     </Tab>
 
                     <Tab activeTabStyle= {{backgroundColor: '#059e77'}} tabStyle= {{backgroundColor: '#059e77'}} style={{backgroundColor: '#EFEFEF'}} heading="Contaminacion Sonora">
-                        <ContSonora />
+                        <ContSonora nav={navigation}/>
                     </Tab>
                 </Tabs>
             </Content>
