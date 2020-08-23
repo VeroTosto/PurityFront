@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardItem, Text, Row, Col, Input, Form, Item, Label} from 'native-base';
-import { StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, TouchableOpacity, Alert, ImageBackground } from 'react-native';
 import LogoImage2 from '../img/LogoImage2';
 import * as firebase from 'firebase';  
 
@@ -57,12 +57,13 @@ export default class SignUp extends React.Component {
 
     render() {
         return (
-            <Col style= {{justifyContent: 'center', alignItems: 'center', backgroundColor: 'white'}}>
+            <ImageBackground source= {require('../assets/Abstract2.jpg')} style={styles.backgroundimage}>
+            <Col style= {{justifyContent: 'center', alignItems: 'center'}}>
                 <Row>
                     <LogoImage2 />
                 </Row>
                 <Row style= {{width: '100%', marginBottom: 300}}>
-                    <Form style = {{width: '100%', alignItems: 'center' }}>
+                    <Form style = {{width: '100%', alignItems: 'center'}}>
                         <Item regular style = {styles.txtInput} >
                             <Input 
                                 underline = {false} 
@@ -103,6 +104,7 @@ export default class SignUp extends React.Component {
                     </Form>
                 </Row>
             </Col>
+            </ImageBackground>
         )
     }
 }
@@ -119,5 +121,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#00B18F',
         paddingHorizontal: 40,
         paddingVertical: 10
+    },
+    backgroundimage:{
+        width : "100%",
+        flex: 1
     }
 });
