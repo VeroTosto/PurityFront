@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, ImageBackground} from 'react-native';
 import {Text, Container, Content, Body, ListItem, CheckBox, Card, Header} from 'native-base';
 import LogoImage from './../img/LogoImage';
 import Green from '../img/Green';
@@ -51,26 +51,28 @@ export default class Recomendaciones extends React.Component {
                 <LogoImage />
             </Body>
         </Header>
+        <ImageBackground source= {require('../assets/TrianguloSinAclarar.jpg')} style={styles.backgroundimage}>
         <Content>
             <Card style={{width: '90%', alignSelf: 'center', marginTop: 35, borderRadius: 5}}>
                 <TouchableOpacity>
-                    <Text style={{letterSpacing: 2, alignSelf: 'center', marginTop: 10}}>RECOMENDACIONES DE SALUD</Text>
+                    <Text style={{letterSpacing: 2, alignSelf: 'center', marginTop: 10}}>Recomendaciones de Salud</Text>
                     <Salud />
                 </TouchableOpacity>
             </Card>
             <Card style={{width: '90%', alignSelf: 'center', marginTop: 15, borderRadius: 5}}>
                 <TouchableOpacity>
-                    <Text style={{letterSpacing: 2, alignSelf: 'center', marginTop: 10}}>RECOMENDACIONES GENERALES</Text>
+                    <Text style={{letterSpacing: 2, alignSelf: 'center', marginTop: 10}}>Recomendaciones Generales</Text>
                     <Green />
                 </TouchableOpacity>
             </Card>
             <Card style={{width: '90%', alignSelf: 'center', marginTop: 15, borderRadius: 5}}>
                 <TouchableOpacity>
-                    <Text style={{letterSpacing: 2, alignSelf: 'center', marginTop: 10, marginBottom: 10}}>RECOMENDACIONES DEL HOGAR</Text>
+                    <Text style={{letterSpacing: 2, alignSelf: 'center', marginTop: 10, marginBottom: 10}}>Recomendaciones del Hogar</Text>
                     <Ciudad />
                 </TouchableOpacity>
             </Card>
         </Content>
+        </ImageBackground>
         </>
         );
     }   
@@ -82,4 +84,8 @@ const styles = StyleSheet.create({
         borderRadius: 3, 
         marginRight: 5
     },
+    backgroundimage:{
+        width : "100%",
+        flex: 1
+    }
   });
