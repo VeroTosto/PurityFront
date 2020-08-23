@@ -6,7 +6,6 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import Cartas from './../pantallas/Cartas';
 import Recomendaciones from '../pantallas/Recomendaciones';
-import InfoGral from '../pantallas/InfoGral';
 import Mapa from '../pantallas/Mapa';
 import LogIn from '../pantallas/LogIn';
 import SignUp from '../pantallas/SignUp';
@@ -18,7 +17,6 @@ const HomeStack = createBottomTabNavigator(
     Mediciones: Cartas,
     Mapa: Mapa,
     Tips: Recomendaciones,
-    Info: InfoGral,
     Usuario: User,
   },
   {
@@ -53,7 +51,7 @@ const HomeStack = createBottomTabNavigator(
 const MyNav = createStackNavigator({
   LogIn: { screen: LogIn },
   SignUp: {screen: SignUp},
-  Home: { screen: HomeStack, params: {valor: 200}, },
+  Home: { screen: HomeStack, params: {valor: 200, valorRuido: 60},},
 },
 {
   headerMode: 'none',
