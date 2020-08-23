@@ -5,7 +5,6 @@ import React, {useState, useCallback, useRef} from 'react';
 import {Button, View, StyleSheet} from 'react-native';
 import {ReanimatedArc, ReanimatedArcBase} from '@callstack/reanimated-arc';
 import Reanimated, {Easing} from 'react-native-reanimated';
-
 export default class ContAtm extends React.Component {
     
     constructor(props) {
@@ -66,7 +65,7 @@ export default class ContAtm extends React.Component {
             <Row style = {{alignSelf: 'center', height: 350}}>
                 <Card style = {{width: '85%', borderRadius: 10}}>
                     <CardItem header style = {{alignSelf: 'center'}}>
-                        <Text>Contaminacion del Aire</Text>
+                        <Text style={{fontSize: 20}}>Contaminacion del Aire</Text>
                     </CardItem>
                     <CardItem style={styles.container}>
                         {/* <Reanimated.Code
@@ -88,7 +87,7 @@ export default class ContAtm extends React.Component {
                         <View style={styles.center}>
                         <ReanimatedArc 
                             style={{alignSelf: 'center', transform: [{rotate: '240deg'}]}}
-                            color="purple"
+                            color="#EF674A"
                             diameter={200}
                             width={20}
                             arcSweepAngle={210}
@@ -99,7 +98,7 @@ export default class ContAtm extends React.Component {
                         <Text style={{fontSize: 40}}>{this.state.valor}</Text>
                     </CardItem>
                     <CardItem style={{alignSelf: 'center'}}>
-                        <Text style={{fontSize: 10, color: '#585858'}}>Calidad del Aire: {this.state.texto}</Text>
+                        <Text style={{fontSize: 12, color: '#585858'}}>Calidad del Aire: {this.state.texto}</Text>
                     </CardItem>
                     <CardItem style={{alignSelf: 'center'}}>
                         <Text style={{fontSize: 20, color: '#585858'}}>Hace 3 horas</Text>
@@ -123,7 +122,7 @@ export default class ContAtm extends React.Component {
                             <MyListItem color='#E82929' text='Peligrosa'/>
                         </Col>
                         <Col style={{justifyContent: 'center'}}>
-                            <Card style={{borderRadius: 5, alignItems: 'center', padding: 5, backgroundColor: this.state.color}}>
+                            <Card style={{borderRadius: 5, alignItems: 'center', padding: 10, marginRight: 10, backgroundColor: this.state.color}}>
                                 <Text>{this.state.descripcion}</Text>
                             </Card>
                         </Col>
