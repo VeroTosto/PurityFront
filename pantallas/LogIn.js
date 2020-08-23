@@ -58,7 +58,7 @@ export default class LogIn extends React.Component {
       
     render() {
         return (
-            <ImageBackground source= {require('../assets/Abstract.jpg')} style={styles.backgroundimage}>
+            <ImageBackground source= {require('../assets/Abstract3.jpg')} style={styles.backgroundimage}>
             <Col style= {{justifyContent: 'center', alignItems: 'center'}}>
             <Row>
                 <LogoImage2 />
