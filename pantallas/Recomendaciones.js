@@ -54,7 +54,7 @@ export default class Recomendaciones extends React.Component {
         <ImageBackground source= {require('../assets/TrianguloSinAclarar.jpg')} style={styles.backgroundimage}>
         <Content>
             <Card style={{width: '90%', alignSelf: 'center', marginTop: 35, borderRadius: 5}}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('RecSalud')}>
                     <Text style={{letterSpacing: 2, alignSelf: 'center', marginTop: 10}}>Recomendaciones de Salud</Text>
                     <Salud />
                 </TouchableOpacity>
@@ -66,7 +66,7 @@ export default class Recomendaciones extends React.Component {
                 </TouchableOpacity>
             </Card>
             <Card style={{width: '90%', alignSelf: 'center', marginTop: 15, borderRadius: 5}}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('RecHogar')}>
                     <Text style={{letterSpacing: 2, alignSelf: 'center', marginTop: 10, marginBottom: 10}}>Recomendaciones del Hogar</Text>
                     <Ciudad />
                 </TouchableOpacity>
