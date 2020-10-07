@@ -2,7 +2,8 @@ import { Card, CardItem, Text, Row, Col} from 'native-base';
 import MyListItem from './../components/MyListItem';
 import Geocoder from 'react-native-geocoding';
 import React, {useState, useCallback, useRef} from 'react';
-import {Button, View, StyleSheet} from 'react-native';
+import { StyleSheet, View, TextInput, TouchableOpacity, Alert, ImageBackground,
+requireNativeComponent } from 'react-native';
 import {ReanimatedArc, ReanimatedArcBase} from '@callstack/reanimated-arc';
 import Reanimated, {Easing} from 'react-native-reanimated';
 export default class ContAtm extends React.Component {
@@ -10,18 +11,22 @@ export default class ContAtm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            valor: this.props.nav.state.params.valor,
+            valor: '200',
             texto: null,
             descripcion: null,
             color: null,
             direccion: null,
+            latitud: '',
+            longitud: '',
+            angulo: '',
+
         }; 
         Geocoder.init("AIzaSyB54rA_Liu1QOxxAZAX2fFhViLqFc81ROg");
     }
 
     setValores = () => {
         if(this.state.valor > 0 && this.state.valor <= 50) {
-            this.setState({ texto: 'Excelente', descripcion: 'Sin implicaciones para la salud', color: '#BEF98F'})
+            this.setState({ texto: 'Excelente', descripcion: 'Sin implicaciones para la salud', color: '#5DF163'})
         }
         else if(this.state.valor > 50 && this.state.valor <= 100) {
             this.setState({ texto: 'Buena', descripcion: 'Algunos contaminantes pueden afectar ligeramente a muy pocos individuos hipersensibles', color: '#BCFC88'})
@@ -39,11 +44,13 @@ export default class ContAtm extends React.Component {
             this.setState({ texto: 'Peligrosa', descripcion: 'Las personas sanas experimentarán una resistencia reducida en las actividades y también pueden mostrar síntomas notablemente fuertes. Los ancianos y los enfermos pueden verse perjudicados', color:'#EE4C4C'})
         }
     }
-    componentDidMount = () => {
-        this.setValores();
 
+    componentDidMount = () => {
         navigator.geolocation.getCurrentPosition(
             position => {
+                this.setState({latitud: position.coords.latitude})
+                this.setState({longitud: position.coords.longitude})
+                console.log(this.state.latitud, this.state.longitud)
                 Geocoder.from(position.coords.latitude, position.coords.longitude)
                 .then(json => {
                     var addressComponent = json.results[0].address_components;
@@ -57,7 +64,42 @@ export default class ContAtm extends React.Component {
             error => this.setState({error: error.message}),
             {enableHighAccuracy: true, timeout: 20000, maximumAge: 2000}
         );
+        this.CalidadAire(this.state.latitud, this.state.longitud);
     }
+
+    getUrlWithParameters(longitud, latitud){
+        const url = "http://api.airvisual.com/v2/nearest_city?";
+        const location = `lat=${latitud}lon=${longitud}`;
+        const key = `&key=${"5aa42b1e-0842-415f-9264-219702fcb372"}`;
+        console.log(latitud + longitud)
+        console.log( `${url}${location}${key}`);
+        return `${url}${location}${key}`;
+        
+    }
+
+    CalidadAire = (longitud, latitud) =>{
+        var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+        };
+        fetch(this.getUrlWithParameters(longitud, latitud), requestOptions)
+        .then(response => response.json())
+        .then(responseJson => {
+            this.setState(
+            {
+            valor: responseJson.data.current.pollution.aqius,
+            },
+        );
+        this.setValores();
+        })
+        .catch(error => {
+        console.error(error);
+        });
+        // .then(response => response.json())
+        // .then(result => result.data.current.pollution.aqius)
+        // .catch(error => console.log('error', error));
+    }
+
 
     render() {
         return (
@@ -68,11 +110,6 @@ export default class ContAtm extends React.Component {
                         <Text style={{fontSize: 20}}>Contaminacion del Aire</Text>
                     </CardItem>
                     <CardItem style={styles.container}>
-                        {/* <Reanimated.Code
-                            exec={Reanimated.call([arcAngle.current], ([value]) => {
-                            setText(`${Math.round((value / 240) * 100)}%`);
-                        })}
-                        /> */}
                         <View style={styles.behind}>
                         <ReanimatedArcBase 
                             style={{alignSelf: 'center', transform: [{rotate: '240deg'}]}}
@@ -87,10 +124,10 @@ export default class ContAtm extends React.Component {
                         <View style={styles.center}>
                         <ReanimatedArc 
                             style={{alignSelf: 'center', transform: [{rotate: '240deg'}]}}
-                            color="#EF674A"
+                            color={this.state.color}
                             diameter={200}
                             width={20}
-                            arcSweepAngle={210}
+                            arcSweepAngle={240/500*this.state.valor}
                             lineCap="round"
                             rotation={0}
                         />
@@ -98,10 +135,7 @@ export default class ContAtm extends React.Component {
                         <Text style={{fontSize: 40}}>{this.state.valor}</Text>
                     </CardItem>
                     <CardItem style={{alignSelf: 'center'}}>
-                        <Text style={{fontSize: 12, color: '#585858'}}>Calidad del Aire: {this.state.texto}</Text>
-                    </CardItem>
-                    <CardItem style={{alignSelf: 'center'}}>
-                        <Text style={{fontSize: 20, color: '#585858'}}>Hace 3 horas</Text>
+                        <Text style={{fontSize: 20, color: '#585858'}}>Calidad del Aire: {this.state.texto}</Text>
                     </CardItem>
                 </Card>
             </Row>

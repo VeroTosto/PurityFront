@@ -10,7 +10,7 @@ export default class ContSonora extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            valorRuido: this.props.nav.state.params.valorRuido,
+            valorRuido: '80',
             texto: null,
             descripcion: null,
             color: null,
@@ -20,14 +20,17 @@ export default class ContSonora extends React.Component {
     }
 
     setValores = () => {
-        if(this.state.valorRuido > 0 && this.state.valorRuido <= 65) {
-            this.setState({ texto: 'Bueno', descripcion: 'El nivel de contaminación sonora no es elevado y no tiene implicaciones para la salud', color: '#BEF98F'})
+        if(this.state.valorRuido > 0 && this.state.valorRuido <= 70) {
+            this.setState({ texto: 'Buena', descripcion: 'El nivel de contaminación sonora no es elevado y no tiene implicaciones para la salud', color: '#5DF163'})
         }
-        else if(this.state.valorRuido > 65 && this.state.valorRuido <= 99) {
-            this.setState({ texto: 'Moderado', descripcion: 'El nivel de contaminacion sonora puede tener implicaciones para tu salud', color: '#BCFC88'})
+        else if(this.state.valorRuido > 70 && this.state.valorRuido <= 90) {
+            this.setState({ texto: 'Moderada', descripcion: 'El nivel de contaminacion sonora puede tener implicaciones para tu salud', color: '#EEF06D'})
         }
-        else if(this.state.valorRuido >= 100) {
-            this.setState({ texto: 'Peligroso', descripcion: 'El nivel de contaminacion sonora es dañino para tu salud', color: '#F5F67A'})
+        else if(this.state.valorRuido >= 90 && this.state.valorRuido <= 110) {
+            this.setState({ texto: 'Peligrosa', descripcion: 'El nivel de contaminacion sonora es dañino para tu salud', color: '#EF674A'})
+        }
+        else if(this.state.valorRuido >= 110) {
+            this.setState({ texto: 'Muy perjudicial', descripcion: 'El nivel de contaminacion sonora es extremadamente dañino para tu salud', color: '#E82929'})
         }
     }
     componentDidMount = () => {
@@ -59,11 +62,6 @@ export default class ContSonora extends React.Component {
                         <Text style={{fontSize: 20}}>Contaminacion Sonora</Text>
                     </CardItem>
                     <CardItem style={styles.container}>
-                            {/* <Reanimated.Code
-                                exec={Reanimated.call([arcAngle.current], ([value]) => {
-                                setText(`${Math.round((value / 240) * 100)}%`);
-                            })}
-                            /> */}
                             <View style={styles.behind}>
                             <ReanimatedArcBase 
                                 style={{alignSelf: 'center', transform: [{rotate: '240deg'}]}}
@@ -78,10 +76,10 @@ export default class ContSonora extends React.Component {
                             <View style={styles.center}>
                             <ReanimatedArc 
                                 style={{alignSelf: 'center', transform: [{rotate: '240deg'}]}}
-                                color="#BEF98F"
+                                color={this.state.color}
                                 diameter={200}
                                 width={20}
-                                arcSweepAngle={100}
+                                arcSweepAngle={240/140*this.state.valorRuido}
                                 lineCap="round"
                                 rotation={0}
                             />
@@ -89,10 +87,7 @@ export default class ContSonora extends React.Component {
                             <Text style={{fontSize: 40}}>{this.state.valorRuido}</Text>
                         </CardItem>
                         <CardItem style={{alignSelf: 'center'}}>
-                            <Text style={{fontSize: 12, color: '#585858'}}>Calidad Sonora: {this.state.texto}</Text>
-                        </CardItem>
-                        <CardItem style={{alignSelf: 'center'}}>
-                            <Text style={{fontSize: 20, color: '#585858'}}>Hace 3 horas</Text>
+                            <Text style={{fontSize: 20, color: '#585858'}}>Calidad Sonora: {this.state.texto}</Text>
                         </CardItem>
                 </Card>
             </Row>
@@ -105,9 +100,10 @@ export default class ContSonora extends React.Component {
                 <Card style={{borderRadius: 10, width: '85%', height: 300}}>
                     <Row>
                         <Col style={{justifyContent: 'center', alignItems: 'flex-start'}}>
-                            <MyListItem color='#5DF163' text='Bueno'/>
-                            <MyListItem color='#EEF06D' text='Moderado'/>
-                            <MyListItem color='#E82929' text='Peligroso'/>
+                            <MyListItem color='#5DF163' text='Buena'/>
+                            <MyListItem color='#EEF06D' text='Moderada'/>
+                            <MyListItem color='#EF674A' text='Peligrosa'/>
+                            <MyListItem color='#E82929' text='Muy perjudicial'/>
                         </Col>
                         <Col style={{justifyContent: 'center'}}>
                             <Card style={{borderRadius: 5, alignItems: 'center', padding: 10, marginRight: 10, backgroundColor: this.state.color}}>
