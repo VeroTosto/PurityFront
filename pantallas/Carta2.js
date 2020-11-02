@@ -11,7 +11,7 @@ export default class ContAtm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            valor: '200',
+            valor: '',
             texto: null,
             descripcion: null,
             color: null,
@@ -64,7 +64,7 @@ export default class ContAtm extends React.Component {
             error => this.setState({error: error.message}),
             {enableHighAccuracy: true, timeout: 20000, maximumAge: 2000}
         );
-        this.CalidadAire(this.state.latitud, this.state.longitud);
+        this.CalidadAire(this.state.longitud, this.state.latitud);
     }
 
     getUrlWithParameters(longitud, latitud){
