@@ -16,10 +16,12 @@ export default class Mapa extends React.Component {
         this.state ={ 
             latitude: -34.545,
             longitude: -58.466,
-            markers: [],
-            latMarker: '',
-            longMarker: '',
-            valor: '',
+            marker: {
+                lat: '',
+                long: '',
+                valor: '',
+                show: false,
+            }
         }
     }
 
@@ -63,7 +65,7 @@ export default class Mapa extends React.Component {
 
     getUrlWithParameters(longitud, latitud){
         const url = "http://api.airvisual.com/v2/nearest_city?";
-        const location = `lat=${latitud}lon=${longitud}`;
+        const location = `lat=${latitud}&lon=${longitud}`;
         const key = `&key=${"5aa42b1e-0842-415f-9264-219702fcb372"}`;
         console.log(latitud + longitud)
         console.log( `${url}${location}${key}`);
@@ -79,11 +81,40 @@ export default class Mapa extends React.Component {
         fetch(this.getUrlWithParameters(longitud, latitud), requestOptions)
         .then(response => response.json())
         .then(responseJson => {
-            this.setState(
-            {
-            valor: responseJson.data.current.pollution.aqius,
-            },
-        );
+            let aquis = ''
+            let result;
+            try {
+                aquis = responseJson.data.current.pollution.aqius
+                if(aquis > 0 && aquis <= 50) {
+                    result = 'Excelente'
+                }
+                else if(aquis > 50 && aquis <= 100) {
+                    result = 'Buena'
+                }
+                else if(aquis > 100 && aquis <= 150) {
+                    result = 'Moderada'
+                }
+                else if(aquis > 150 && aquis <= 200) {
+                    result = 'Mala'
+                }
+                else if(aquis > 200 && aquis <= 300) {
+                    result = 'Muy mala'
+                }
+                else if(aquis > 300) {
+                    result = 'Peligrosa'
+                }
+            } catch (error) {
+                aquis = 'Desconocido'
+                result = 'Desconocido'
+            }
+            console.log(responseJson)
+            this.setState(prevState => ({
+                marker: {
+                    ...prevState.marker,
+                    valor: result,
+                    show: true,
+                }
+            }));
         })
         .catch(error => {
         console.error(error);
@@ -111,13 +142,26 @@ export default class Mapa extends React.Component {
                         latitudeDelta: 0.15,
                         longitudeDelta: 0.0121,
                     }}
-                    onPress={(e) => 
-                    this.setState({ markers: [...this.state.markers, { latlng: e.nativeEvent.coordinate }], latMarker: JSON.stringify(e.nativeEvent.coordinate.latitude), longMarker: JSON.stringify(e.nativeEvent.coordinate.longitude) }), this.CalidadAire(this.state.longMarker, this.state.latMarker)}>
-                        {
-                            this.state.markers.map((marker, i) => (
-                                <MapView.Marker key={i} coordinate={marker.latlng} title={'el nivel de contaminacion es' + this.state.valor} />
-                            ))
-                        }
+                    onPress={(e) => {
+                        let eLat = e.nativeEvent.coordinate.latitude;
+                        let eLon = e.nativeEvent.coordinate.longitude
+                        console.log("eLat", eLat)
+                        this.setState(prevState => ({
+                            marker: {
+                                ...prevState.marker,
+                                lat: eLat, 
+                                long: eLon
+                            }
+                            }), 
+                            () => {
+                                this.CalidadAire(this.state.marker.long, this.state.marker.lat)
+                            }
+                        )}
+                    }
+                >
+                    {   this.state.marker.show &&
+                        <MapView.Marker coordinate={{latitude: this.state.marker.lat, longitude: this.state.marker.long}} title={'La calidad del aire es: ' + this.state.marker.valor} />
+                    }
                     <Marker coordinate={this.state}
                         title={'mi ubicacion actual'} >
                     </Marker>
