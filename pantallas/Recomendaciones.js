@@ -1,10 +1,7 @@
 import React from 'react';
-import {StyleSheet, ImageBackground} from 'react-native';
-import {Text, Container, Content, Body, ListItem, CheckBox, Card, Header} from 'native-base';
+import {StyleSheet, ImageBackground, Image} from 'react-native';
+import {Text, Container, Content, Body, ListItem, CheckBox, Card, Header, Row, Col} from 'native-base';
 import LogoImage from './../img/LogoImage';
-import Green from '../img/Green';
-import Salud from '../img/Salud';
-import Ciudad from '../img/Ciudad';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 export default class Recomendaciones extends React.Component {
 
@@ -53,24 +50,42 @@ export default class Recomendaciones extends React.Component {
         </Header>
         <ImageBackground source= {require('../assets/TrianguloSinAclarar.jpg')} style={styles.backgroundimage}>
         <Content>
-            <Card style={{width: '90%', alignSelf: 'center', marginTop: 35, borderRadius: 5}}>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('RecSalud')}>
-                    <Text style={{letterSpacing: 2, alignSelf: 'center', marginTop: 10}}>Recomendaciones de Salud</Text>
-                    <Salud />
-                </TouchableOpacity>
-            </Card>
-            <Card style={{width: '90%', alignSelf: 'center', marginTop: 15, borderRadius: 5}}>
-                <TouchableOpacity>
-                    <Text style={{letterSpacing: 2, alignSelf: 'center', marginTop: 10}}>Recomendaciones Generales</Text>
-                    <Green />
-                </TouchableOpacity>
-            </Card>
-            <Card style={{width: '90%', alignSelf: 'center', marginTop: 15, borderRadius: 5}}>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('RecHogar')}>
-                    <Text style={{letterSpacing: 2, alignSelf: 'center', marginTop: 10, marginBottom: 10}}>Recomendaciones del Hogar</Text>
-                    <Ciudad />
-                </TouchableOpacity>
-            </Card>
+            <Row>
+                <Col>
+                    <Card style={{width: '90%', alignSelf: 'center', marginTop: 35, borderRadius: 5}}>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('RecSalud')}>
+                            <Image source = {require('./../assets/saludletras.png')} style={{borderRadius: 5, height: 165, width: 165}}/>
+                        </TouchableOpacity>
+                    </Card>
+                    <Card style={{width: '90%', alignSelf: 'center', marginTop: 15, borderRadius: 5}}>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('RecReciclaje')}>
+                            <Image source = {require('./../assets/reciclajeletras.png')} style={{borderRadius: 5, height: 165, width: 165}}/>
+                        </TouchableOpacity>
+                    </Card>
+                    <Card style={{width: '90%', alignSelf: 'center', marginTop: 15, borderRadius: 5}}>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('RecProductos')}>
+                            <Image source = {require('./../assets/productosletras.png')} style={{borderRadius: 5, height: 165, width: 165}}/>
+                        </TouchableOpacity>
+                    </Card>
+                </Col>
+                <Col>
+                    <Card style={{width: '90%', alignSelf: 'center', marginTop: 35, borderRadius: 5}}>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('RecPlantas')}>
+                            <Image source = {require('./../assets/plantasletras.png')} style={{borderRadius: 5, height: 165, width: 165}}/>
+                        </TouchableOpacity>
+                    </Card>
+                    <Card style={{width: '90%', alignSelf: 'center', marginTop: 15, borderRadius: 5}}>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('RecHogar')}>
+                            <Image source = {require('./../assets/hogarletras.png')} style={{borderRadius: 5, height: 165, width: 165}}/>
+                        </TouchableOpacity>
+                    </Card>
+                    <Card style={{width: '90%', alignSelf: 'center', marginTop: 15, borderRadius: 5}}>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('RecOrg')}>
+                            <Image source = {require('./../assets/organizacionesletras.png')} style={{borderRadius: 5, height: 165, width: 165}}/>
+                        </TouchableOpacity>
+                    </Card>
+                </Col>
+            </Row>
         </Content>
         </ImageBackground>
         </>

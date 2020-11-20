@@ -11,7 +11,11 @@ import LogIn from '../pantallas/LogIn';
 import SignUp from '../pantallas/SignUp';
 import User from '../pantallas/User';
 import RecSalud from '../pantallas/RecSalud';
+import RecReciclaje from '../pantallas/RecReciclaje';
+import RecProductos from '../pantallas/RecProductos';
 import RecHogar from '../pantallas/RecHogar';
+import RecOrg from '../pantallas/RecOrg';
+import RecPlantas from '../pantallas/RecPlantas';
 import { faCheckSquare,faMapMarkerAlt, faCloud, faInfoCircle, faUser} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 const HomeStack = createBottomTabNavigator(
@@ -55,6 +59,10 @@ const MyNav = createStackNavigator({
   SignUp: {screen: SignUp},
   RecSalud: {screen: RecSalud},
   RecHogar: {screen: RecHogar},
+  RecReciclaje: {screen: RecReciclaje},
+  RecProductos: {screen: RecProductos},
+  RecOrg: {screen: RecOrg},
+  RecPlantas: {screen: RecPlantas},
   Home: { screen: HomeStack, params: {valor: 200, valorRuido: 60},},
 },
 {

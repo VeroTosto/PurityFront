@@ -48,8 +48,9 @@ export default class ContAtm extends React.Component {
     componentDidMount = () => {
         navigator.geolocation.getCurrentPosition(
             position => {
-                this.setState({latitud: position.coords.latitude})
-                this.setState({longitud: position.coords.longitude})
+                this.setState({latitud: position.coords.latitude, longitud: position.coords.longitude},
+                    () => this.CalidadAire(this.state.longitud, this.state.latitud)
+                )
                 console.log(this.state.latitud, this.state.longitud)
                 Geocoder.from(position.coords.latitude, position.coords.longitude)
                 .then(json => {
@@ -64,12 +65,11 @@ export default class ContAtm extends React.Component {
             error => this.setState({error: error.message}),
             {enableHighAccuracy: true, timeout: 20000, maximumAge: 2000}
         );
-        this.CalidadAire(this.state.longitud, this.state.latitud);
     }
 
     getUrlWithParameters(longitud, latitud){
         const url = "http://api.airvisual.com/v2/nearest_city?";
-        const location = `lat=${latitud}lon=${longitud}`;
+        const location = `lat=${latitud}&lon=${longitud}`;
         const key = `&key=${"5aa42b1e-0842-415f-9264-219702fcb372"}`;
         console.log(latitud + longitud)
         console.log( `${url}${location}${key}`);
@@ -85,6 +85,7 @@ export default class ContAtm extends React.Component {
         fetch(this.getUrlWithParameters(longitud, latitud), requestOptions)
         .then(response => response.json())
         .then(responseJson => {
+            console.log('probando:', responseJson)
             this.setState(
             {
             valor: responseJson.data.current.pollution.aqius,
